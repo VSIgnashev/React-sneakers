@@ -1,6 +1,7 @@
-import { ProductCard } from "./components/Product-card/Product-card";
-import CartOverlay from "./components/Cart-overlay/Cart-overlay";
-import Header from "./components/Header/Header";
+import { ProductCard } from "./components/ProductCard";
+import CartOverlay from "./components/CartOverlay";
+import Header from "./components/Header";
+
 
 const itemsArray = [
   { name: "Мужские Кроссовки Nike Blazer Mid Suede", imgsrc: '/img/items/1.jpg', price: "12 999 руб." },

@@ -1,0 +1,132 @@
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.cartOverlay {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 420px;
+  right: 0px;
+  height: 100%;
+  padding: 30px;
+
+  background: #ffffff;
+  box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.cartItems {
+  overflow: auto;
+  flex: 1;
+  margin-bottom: 40px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  border: 1px solid #f3f3f3;
+  border-radius: 20px;
+  padding: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.cartItemImg {
+  height: 70px;
+  width: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 0 -3px;
+}
+
+.cartItemText {
+  flex: 1;
+  margin-left: 20px;
+  p {
+    font-size: 16px;
+  }
+
+  b {
+    font-size: 14px;
+  }
+}
+
+.cartItemRemove {
+  margin-left: 20px;
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.cartTotalBlock {
+  ul {
+    margin-bottom: 40px;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 20px;
+
+    div {
+      flex: 1;
+      height: 1px;
+      border-bottom: 1px dashed #dfdfdf;
+      position: relative;
+      top: -4px;
+      margin: 0 7px;
+    }
+  }
+}
+
+.checkoutButton {
+  position: relative;
+  width: 100%;
+
+  height: 55px;
+
+  background: #9dd558;
+  border-radius: 18px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.1s ease-in-out;
+
+  &:hover {
+    background: lighten($color: #9dd558, $amount: 5%);
+  }
+
+  &:active {
+    background: darken($color: #9dd558, $amount: 5%);
+  }
+
+  img {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: transform 0.15s ease-in-out;
+  }
+
+  &:hover {
+    img {
+      transform: translateX(5px);
+    }
+  }
+}

@@ -1,0 +1,44 @@
+.logo {
+  display: flex;
+}
+
+.logoText {
+  margin-left: 16px;
+}
+
+.logoHeader {
+  font-family: "Inter";
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+.logoSlogan {
+  font-family: "Inter";
+  font-weight: 400;
+
+  font-size: 14px;
+  color: #9d9d9d;
+}
+
+header {
+  border-bottom: 1px solid #b60b0b;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 43px;
+  padding-left: 45px;
+  padding-right: 63px;
+  padding-bottom: 44px;
+}
+
+.userInfo {
+  display: flex;
+  column-gap: 30px;
+}
+
+.totalPrice {
+  margin-left: 10px;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 14px;
+  color: #5c5c5c;
+}

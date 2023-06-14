@@ -1,14 +1,16 @@
+import styles from "./Header.module.scss"
+
 function Header() {
     return (
         <header>
-            <div className="logo">
+            <div className={styles.logo}>
                 <img height={40} width={40} src="/img/logo.png" alt="logo" />
-                <div className="logo-text">
-                    <h3 className="logo-header">REACT SNEAKERS</h3>
-                    <p className="logo-slogan">Магазин лучших кросовок</p>
+                <div className={styles.logoText}>
+                    <h3 className={styles.logoHeader}>REACT SNEAKERS</h3>
+                    <p className={styles.logoSlogan}>Магазин лучших кросовок</p>
                 </div>
             </div>
-            <ul className="user-info">
+            <ul className={styles.userInfo}>
                 <li>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.54548 18.1818C7.99735 18.1818 8.36366 17.8155 8.36366 17.3636C8.36366 16.9118 7.99735 16.5455 7.54548 16.5455C7.09361 16.5455 6.72729 16.9118 6.72729 17.3636C6.72729 17.8155 7.09361 18.1818 7.54548 18.1818Z" stroke="#9B9B9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -17,7 +19,7 @@ function Header() {
                     </svg>
 
 
-                    <span className="total-price">1205 руб.</span>
+                    <span className={styles.totalPrice}>1205 руб.</span>
                 </li>
                 <li>
                     <img src="/img/like_logo.svg" alt="like-logo" />
