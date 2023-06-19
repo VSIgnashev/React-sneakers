@@ -1,23 +1,27 @@
 import styles from "./CartOverlay.module.scss"
 
-function CartOverlay() {
+function CartOverlay({ onClose, items = [] }) {
     return (
         <div className={styles.overlay}>
             <div className={styles.cartOverlay}>
                 <div className={styles.headerWrapper}>
                     <h2>Корзина</h2>
-                    <img style={{ cursor: 'pointer' }} src="/img/cart_remove.svg" alt="remove" />
+                    <img style={{ cursor: 'pointer' }} onClick={onClose} src="/img/cart_remove.svg" alt="remove" />
                 </div>
-                <div className={styles.cartItems}>
-                    <div className={styles.cartItem}>
-                        <div className={styles.cartItemImg} style={{ backgroundImage: 'url("/img/items/1.jpg")' }}></div>
-                        <div className={styles.cartItemText}>
-                            <p>Мужские Кроссовки Nike Air Max 270</p>
-                            <b>12 999 руб.</b>
-                        </div>
-                        <img className={styles.cartItemRemove} src="/img/cart_remove.svg" alt="remove" />
-                    </div>
 
+                <div className={styles.cartItems}>
+
+                    {items.map((obj) => (
+
+                        <div className={styles.cartItem}>
+                            <div className={styles.cartItemImg} style={{ backgroundImage: `url(${obj.imgsrc})` }}></div>
+                            <div className={styles.cartItemText}>
+                                <p>{obj.name}</p>
+                                <b>{obj.price}</b>
+                            </div>
+                            <img className={styles.cartItemRemove} src="/img/cart_remove.svg" alt="remove" />
+                        </div>
+                    ))}
 
                 </div>
                 <div className={styles.cartTotalBlock}>

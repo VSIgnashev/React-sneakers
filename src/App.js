@@ -1,40 +1,82 @@
+import React from "react";
 import { ProductCard } from "./components/ProductCard";
 import CartOverlay from "./components/CartOverlay";
 import Header from "./components/Header";
 
 
-const itemsArray = [
-  { name: "Мужские Кроссовки Nike Blazer Mid Suede", imgsrc: '/img/items/1.jpg', price: "12 999 руб." },
-  { name: "Мужские Кроссовки Nike Air Max 270", imgsrc: '/img/items/2.jpg', price: "12 999 руб." },
-  { name: "Мужские Кроссовки Nike Blazer Mid Suede", imgsrc: '/img/items/3.jpg', price: "8 499 руб." },
-  { name: "Кроссовки Puma X Aka Boku Future Rider", imgsrc: '/img/items/4.jpg', price: "8 999 руб." },
-  { name: "Мужские Кроссовки Under Armour Curry 8", imgsrc: '/img/items/5.jpg', price: "15 199 руб." },
-  { name: "Мужские Кроссовки Nike Kyrie 7", imgsrc: '/img/items/6.jpg', price: "11 299 руб." },
-  { name: "Мужские Кроссовки Jordan Air Jordan 11", imgsrc: '/img/items/7.jpg', price: "10 799 руб." },
-  { name: "Мужские Кроссовки Nike LeBron XVIII", imgsrc: '/img/items/8.jpg', price: "16 499 руб." },
-  { name: "Мужские Кроссовки Nike Lebron XVIII Low", imgsrc: '/img/items/9.jpg', price: "13 999 руб." },
-  { name: "Мужские Кроссовки Nike Blazer Mid Suede", imgsrc: '/img/items/10.jpg', price: "8 499 руб." },
-  { name: "Кроссовки Puma X Aka Boku Future Rider", imgsrc: '/img/items/11.jpg', price: "8 999 руб." },
-  { name: "Мужские Кроссовки Nike Kyrie Flytrap IV", imgsrc: '/img/items/12.jpg', price: "11 299 руб." },
-]
 
 function App() {
+  const [cartOpened, setCardOpened] = React.useState(false);
+
+  const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState('');
+
+  const onChangeSearchInput = (event) => {
+    console.log(event.target.value);
+    setSearchValue(event.target.value);
+  };
+
+  const clearSearchInput = () => {
+    setSearchValue('');
+  };
+
+
+  function isItemInTheCart(item, array) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === item) {
+        console.log('true');
+        return true;
+      }
+    }
+    console.log('false');
+    return false;
+  };
+
+  React.useEffect(() => {
+    fetch('https://648ad8bd17f1536d65e9d127.mockapi.io/items')
+      .then((res) => { return res.json(); })
+      .then((json) => {
+        setItems(json);
+      })
+
+  }, [])
+
+  const onAddToCart = (obj) => {
+    console.log(obj);
+    console.log(cartItems);
+
+    if (!isItemInTheCart(obj, cartItems)) {
+      setCartItems(prev => [...prev, obj]);
+    }
+  }
+
   return (
     <div className="wrapper">
-      <CartOverlay />
-      <Header />
+      {cartOpened && <CartOverlay items={cartItems} onClose={() => { setCardOpened(false) }} />}
+      <Header onClickCart={() => { setCardOpened(true) }} />
       <div className="content">
         <div className="top-part">
-          <h1>Все кроссовки</h1>
+          <h1>{searchValue ? `Поиск по запросу: ${searchValue}` : 'Все кроссовки'}</h1>
           <div className="search-box">
             <img src="/img/search_logo.svg" alt="search" />
-            <input className="search-input" placeholder="Поиск..." />
+            <input onChange={onChangeSearchInput} value={searchValue} className="search-input" placeholder="Поиск..." />
+            {searchValue && <img className="clearSearchButton" src="/img/cart_remove.svg" onClick={clearSearchInput} alt="clear" />}
           </div>
         </div>
         <div className="items">
-          {itemsArray.map((obj) => (
-            <ProductCard name={obj.name} imgsrc={obj.imgsrc} price={obj.price} />
-          ))}
+          {items
+            .filter((item) => item.name.includes(searchValue))
+            .map((item, index) => (
+              <ProductCard
+                key={index}
+                name={item.name}
+                imgsrc={item.imgsrc}
+                price={item.price}
+                onPlus={(obj) => { onAddToCart(obj) }}
+
+              />
+            ))}
 
 
 
