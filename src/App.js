@@ -2,6 +2,7 @@ import React from "react";
 import { ProductCard } from "./components/ProductCard";
 import CartOverlay from "./components/CartOverlay";
 import Header from "./components/Header";
+import axios from "axios";
 
 
 
@@ -34,12 +35,10 @@ function App() {
   };
 
   React.useEffect(() => {
-    fetch('https://648ad8bd17f1536d65e9d127.mockapi.io/items')
-      .then((res) => { return res.json(); })
-      .then((json) => {
-        setItems(json);
-      })
 
+    axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/items').then((res) => {
+      setItems(res.data);
+    })
   }, [])
 
   const onAddToCart = (obj) => {
