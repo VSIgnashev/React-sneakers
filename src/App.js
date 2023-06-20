@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import axios from "axios";
 
 
-
 function App() {
   const [cartOpened, setCardOpened] = React.useState(false);
 
@@ -35,24 +34,31 @@ function App() {
   };
 
   React.useEffect(() => {
-
+    console.log('hi');
     axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/items').then((res) => {
       setItems(res.data);
+    })
+    axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/cart').then((res) => {
+      setCartItems(res.data)
     })
   }, [])
 
   const onAddToCart = (obj) => {
-    console.log(obj);
-    console.log(cartItems);
 
-    if (!isItemInTheCart(obj, cartItems)) {
-      setCartItems(prev => [...prev, obj]);
-    }
+    axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj);
+    setCartItems(prev => [...prev, obj]);
+
+  }
+
+  const onRemoveItem = (id) => {
+    console.log(id);
+    /* axios.post(`https://648ad8bd17f1536d65e9d127.mockapi.io/cart/${id}`); */
+    setCartItems((prev) => prev.filter(item => item.id !== id));
   }
 
   return (
     <div className="wrapper">
-      {cartOpened && <CartOverlay items={cartItems} onClose={() => { setCardOpened(false) }} />}
+      {cartOpened && <CartOverlay items={cartItems} onClose={() => { setCardOpened(false) }} onRemove={onRemoveItem} />}
       <Header onClickCart={() => { setCardOpened(true) }} />
       <div className="content">
         <div className="top-part">

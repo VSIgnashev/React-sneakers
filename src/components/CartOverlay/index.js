@@ -1,6 +1,6 @@
 import styles from "./CartOverlay.module.scss"
 
-function CartOverlay({ onClose, items = [] }) {
+function CartOverlay({ onClose, onRemove, items = [] }) {
     return (
         <div className={styles.overlay}>
             <div className={styles.cartOverlay}>
@@ -19,7 +19,7 @@ function CartOverlay({ onClose, items = [] }) {
                                 <p>{obj.name}</p>
                                 <b>{obj.price}</b>
                             </div>
-                            <img className={styles.cartItemRemove} src="/img/cart_remove.svg" alt="remove" />
+                            <img className={styles.cartItemRemove} onClick={() => { onRemove(obj.id) }} src="/img/cart_remove.svg" alt="remove" />
                         </div>
                     ))}
 
