@@ -11,6 +11,7 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
+  const [favorites, setFavorites] = React.useState([]);
 
   const onChangeSearchInput = (event) => {
     console.log(event.target.value);
@@ -45,15 +46,21 @@ function App() {
 
   const onAddToCart = (obj) => {
 
-    axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj);
-    setCartItems(prev => [...prev, obj]);
+    axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj).then((res) => { setCartItems(prev => [...prev, res.data]); });
+    //axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj);
+    //setCartItems(prev => [...prev, obj]);
 
   }
 
   const onRemoveItem = (id) => {
-    console.log(id);
-    /* axios.post(`https://648ad8bd17f1536d65e9d127.mockapi.io/cart/${id}`); */
+
+    axios.delete(`https://648ad8bd17f1536d65e9d127.mockapi.io/cart/${id}`);
     setCartItems((prev) => prev.filter(item => item.id !== id));
+  }
+
+
+  const onAddToFavorites = (obj) => {
+    axios.post('https://64b3f1310efb99d862689016.mockapi.io/Favorites', obj).then((res) => { setFavorites(prev => [...prev, res.data]) })
   }
 
   return (
@@ -79,6 +86,7 @@ function App() {
                 imgsrc={item.imgsrc}
                 price={item.price}
                 onPlus={(obj) => { onAddToCart(obj) }}
+                onFavorite={(obj) => onAddToFavorites(obj)}
 
               />
             ))}
