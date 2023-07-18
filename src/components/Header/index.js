@@ -1,15 +1,20 @@
 import styles from "./Header.module.scss"
+import { Route, Routes, Link } from "react-router-dom";
 
 function Header(props) {
     return (
         <header>
-            <div className={styles.logo}>
-                <img height={40} width={40} src="/img/logo.png" alt="logo" />
-                <div className={styles.logoText}>
-                    <h3 className={styles.logoHeader}>REACT SNEAKERS</h3>
-                    <p className={styles.logoSlogan}>Магазин лучших кросовок</p>
+            <Link to="/">
+                <div className={styles.logo}>
+                    <img height={40} width={40} src="/img/logo.png" alt="logo" />
+                    <div className={styles.logoText}>
+                        <h3 className={styles.logoHeader}>REACT SNEAKERS</h3>
+                        <p className={styles.logoSlogan}>Магазин лучших кросовок</p>
+
+                    </div>
                 </div>
-            </div>
+            </Link>
+
             <ul className={styles.userInfo} >
                 <li>
                     <svg style={{ cursor: 'pointer' }} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +27,9 @@ function Header(props) {
                     <span style={{ cursor: 'pointer' }} className={styles.totalPrice} onClick={props.onClickCart}>1205 руб.</span>
                 </li>
                 <li>
-                    <img src="/img/favorites_logo.svg" alt="favorites_logo" />
+                    <Link to="/favorites">
+                        <img src="/img/favorites_logo.svg" alt="favorites_logo" />
+                    </Link>
                 </li>
                 <li>
                     <img src="/img/user_logo.svg" alt="user_logo" />

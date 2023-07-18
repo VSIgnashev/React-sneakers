@@ -4,24 +4,31 @@ import styles from "./ProductCard.module.scss"
 
 
 
-export const ProductCard = ({ price, imgsrc, name, onFavorite, onPlus }) => {
+
+
+export const ProductCard = ({ price, imgsrc, name, id, prodId, onFavorite, onPlus, addedToFavorite = false }) => {
   const [isAdded, setIsAdded] = React.useState(false);
-  const [isFavorite, setIsFavorite] = React.useState(false);
+  const [isFavorite, setIsFavorite] = React.useState(addedToFavorite);
 
   const onClickPlus = () => {
-    onPlus({ price, imgsrc, name });
+    onPlus({ price, imgsrc, name, prodId });
     setIsAdded(!isAdded);
   }
 
   const onClickFavorite = () => {
     setIsFavorite(!isFavorite);
-    onFavorite({ price, imgsrc, name });
+    onFavorite({ price, imgsrc, name, id });
+
   }
 
+  const onClickFavorite1 = (id) => {
+    console.log('prodID')
+    console.log(id)
+  }
 
   return (
     <div className={styles.ProductCardWrapper}>
-      <div className={styles.unlikedButton} onClick={onClickFavorite} >
+      <div className={styles.unlikedButton} onClick={() => onClickFavorite(id)} >
         <img src={isFavorite ? '/img/filled_like_logo.svg' : '/img/hollow_like_logo.svg'} alt="unliked" />
       </div>
       <img width={133} height={112} src={imgsrc} alt="item" />
