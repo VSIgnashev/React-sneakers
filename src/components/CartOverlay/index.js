@@ -16,7 +16,7 @@ function CartOverlay({ onClose, onRemove, items = [] }) {
 
                                 {items.map((obj) => {
                                     return (
-                                        <div key={obj.id} className={styles.cartItem}>
+                                        <div key={obj.idю} className={styles.cartItem}>
                                             <div className={styles.cartItemImg} style={{ backgroundImage: `url(${obj.imgsrc})` }}></div>
                                             <div className={styles.cartItemText}>
                                                 <p>{obj.name}</p>

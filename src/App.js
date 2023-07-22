@@ -15,6 +15,7 @@ function App() {
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [favoriteItems, setFavoriteItems] = React.useState([]);
+  const [isLoading, setisLoading] = React.useState(true);
 
   const onChangeSearchInput = (event) => {
 
@@ -38,24 +39,39 @@ function App() {
   };
 
   React.useEffect(() => {
+    async function fetchData() {
+      setisLoading(true);
 
-    axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/items').then((res) => {
-      setItems(res.data);
+      const cartResponse = await axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/cart');
+      const favoriteResponse = await axios.get('https://64b3f1310efb99d862689016.mockapi.io/Favorites');
+      const itemsResponse = await axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/items');
 
-    })
-    axios.get('https://648ad8bd17f1536d65e9d127.mockapi.io/cart').then((res) => {
-      setCartItems(res.data)
-    })
-    axios.get('https://64b3f1310efb99d862689016.mockapi.io/Favorites').then((res) => { setFavoriteItems(res.data) })
+      setisLoading(false);
+
+      setCartItems(cartResponse.data);
+      setFavoriteItems(favoriteResponse.data);
+      setItems(itemsResponse.data);
+
+    }
+    fetchData();
   }, [])
 
   const onAddToCart = (obj) => {
-    try { }
+    console.log(obj)
+    console.log(cartItems)
+    try {
+      if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+        axios.delete(`https://648ad8bd17f1536d65e9d127.mockapi.io/cart/${obj.id}`);
+      }
+      else {
+        axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj).then((res) => { setCartItems(prev => [...prev, res.data]); });
+      }
+    }
     catch (error) {
       alert('Не удалось добавить в корзину')
     }
 
-    axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj).then((res) => { setCartItems(prev => [...prev, res.data]); });
+
     //axios.post('https://648ad8bd17f1536d65e9d127.mockapi.io/cart', obj);
     //setCartItems(prev => [...prev, obj]);
 
@@ -97,7 +113,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home items={items} searchValue={searchValue} onChangeSearchInput={onChangeSearchInput}
-          onAddToCart={onAddToCart} clearSearchInput={clearSearchInput} onAddToFavorites={onAddToFavorites} />} />
+          onAddToCart={onAddToCart} clearSearchInput={clearSearchInput} onAddToFavorites={onAddToFavorites} isLoading={isLoading} />} />
 
         <Route path="/favorites" element={
           <Favorites onAddToFavorites={onAddToFavorites} items={favoriteItems} />

@@ -8,8 +8,26 @@ function Home({
   onAddToCart,
   clearSearchInput,
   onAddToFavorites,
-  testFunc1,
+  isLoading,
 }) {
+  const renderItems = () => {
+    const filteredItems = items.filter((item) =>
+      item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    return (isLoading ? [...Array(10)] : filteredItems).map((item, index) => (
+      <ProductCard
+        key={index}
+        loading={isLoading}
+        onPlus={(obj) => {
+          onAddToCart(obj);
+        }}
+        onFavorite={(obj) => {
+          onAddToFavorites(obj);
+        }}
+        {...item}
+      />
+    ));
+  };
   return (
     <div className="content">
       <div className="top-part">
@@ -34,27 +52,7 @@ function Home({
           )}
         </div>
       </div>
-      <div className="items">
-        {items
-          .filter((item) =>
-            item.name.toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .map((item, index) => (
-            <ProductCard
-              key={index}
-              name={item.name}
-              imgsrc={item.imgsrc}
-              price={item.price}
-              id={item.id}
-              onPlus={(obj) => {
-                onAddToCart(obj);
-              }}
-              onFavorite={(obj) => {
-                onAddToFavorites(obj);
-              }}
-            />
-          ))}
-      </div>
+      <div className="items">{renderItems()}</div>
     </div>
   );
 }
