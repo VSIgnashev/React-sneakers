@@ -182,6 +182,16 @@ h2 {
   cursor: pointer;
   transition: background 0.1s ease-in-out;
 
+  &:disabled {
+    background-color: #bebebe;
+
+    cursor: default;
+
+    &:hover {
+      background-color: #bebebe;
+    }
+  }
+
   &:hover {
     background: lighten($color: #9dd558, $amount: 5%);
   }

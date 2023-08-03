@@ -1,19 +1,23 @@
 import React from "react";
 import styles from "./ProductCard.module.scss"
 import ContentLoader from "react-content-loader"
+import AppContext from "../../contex";
 
 
 
 
 
 
-export const ProductCard = ({ price, imgsrc, name, id, onFavorite, onPlus, addedToFavorite = false, loading = false }) => {
-  const [isAdded, setIsAdded] = React.useState(false);
+export const ProductCard = ({ price, imgsrc, name, id, onFavorite, onPlus, addedToFavorite = false, loading = false, added = false }) => {
+
+  const { isItemAdded } = React.useContext(AppContext);
+
   const [isFavorite, setIsFavorite] = React.useState(addedToFavorite);
 
   const onClickPlus = () => {
     onPlus({ price, imgsrc, name, id });
-    setIsAdded(!isAdded);
+    console.log(id);
+
   }
 
   const onClickFavorite = () => {
@@ -22,17 +26,12 @@ export const ProductCard = ({ price, imgsrc, name, id, onFavorite, onPlus, added
 
   }
 
-  const onClickFavorite1 = (id) => {
-    console.log('prodID')
-    console.log(id)
-  }
-
-
-
 
   return (
 
+
     <div className={styles.ProductCardWrapper}>
+
       {loading ?
         < ContentLoader
           speed={2}
@@ -59,7 +58,7 @@ export const ProductCard = ({ price, imgsrc, name, id, onFavorite, onPlus, added
               <span className={styles.prductPriceAmount}>{price}</span>
             </div>
 
-            <img className={styles.addToCartButton} onClick={onClickPlus} src={isAdded ? '/img/btn_checked.svg' : '/img/btn_plus.svg'} alt="add to cart" />
+            <img className={styles.addToCartButton} onClick={onClickPlus} src={isItemAdded(id) ? '/img/btn_checked.svg' : '/img/btn_plus.svg'} alt="add to cart" />
 
           </div>
         </>}

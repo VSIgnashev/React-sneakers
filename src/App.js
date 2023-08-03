@@ -6,10 +6,11 @@ import axios from "axios";
 import { Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Favorites from "./pages/Favorites/Favorites";
+import AppContext from "./contex";
 
 
 function App() {
-  const [cartOpened, setCardOpened] = React.useState(false);
+  const [cartOpened, setCartOpened] = React.useState(false);
 
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
@@ -101,31 +102,40 @@ function App() {
 
   }
 
+  const isItemAdded = (id) => {
 
+    return cartItems.some((obj) => Number(obj.id) === Number(id));
+
+  } // заменить название функции на глагол
 
 
 
   return (
 
-    <div className="wrapper">
-      {cartOpened && <CartOverlay items={cartItems} onClose={() => { setCardOpened(false) }} onRemove={onRemoveItem} />}
-      <Header onClickCart={() => { setCardOpened(true) }} />
+    <AppContext.Provider value={{ favoriteItems, items, cartItems, favoriteItems, isItemAdded, setCartOpened, setCartItems }}>
+      <div className="wrapper">
+        {cartOpened && <CartOverlay items={cartItems} onClose={() => { setCartOpened(false) }} onRemove={onRemoveItem} />}
+        <Header onClickCart={() => { setCartOpened(true) }} />
 
-      <Routes>
-        <Route path="/" element={<Home items={items} searchValue={searchValue} onChangeSearchInput={onChangeSearchInput}
-          onAddToCart={onAddToCart} clearSearchInput={clearSearchInput} onAddToFavorites={onAddToFavorites} isLoading={isLoading} />} />
+        <Routes>
+          <Route path="/" element={<Home items={items} searchValue={searchValue} onChangeSearchInput={onChangeSearchInput}
+            onAddToCart={onAddToCart} clearSearchInput={clearSearchInput} onAddToFavorites={onAddToFavorites} isLoading={isLoading} />} />
 
-        <Route path="/favorites" element={
-          <Favorites onAddToFavorites={onAddToFavorites} items={favoriteItems} />
+          <Route path="/favorites" element={
+            <Favorites onAddToFavorites={onAddToFavorites} items={favoriteItems} />
 
-        } />
-      </Routes>
-
-
-
+          } />
+        </Routes>
 
 
-    </div>
+
+
+
+      </div>
+
+
+
+    </AppContext.Provider>
   );
 }
 

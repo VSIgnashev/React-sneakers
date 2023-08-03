@@ -1,6 +1,45 @@
 import styles from "./CartOverlay.module.scss"
+import Info from "../Info";
+import AppContext from "../../contex";
+import React from "react";
+import axios from "axios";
+
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 function CartOverlay({ onClose, onRemove, items = [] }) {
+    const { setCartItems, cartItems } = React.useContext(AppContext);
+    const [isOrderComplete, setIsOrderComplete] = React.useState(false);
+    const [orderId, setOrderId] = React.useState(null);
+    const [isLoading, setisLoading] = React.useState(false);
+
+
+
+    const onClickOrder = async () => {
+        try {
+            setisLoading(true);
+            const { data } = await axios.post('https://64b3f1310efb99d862689016.mockapi.io/Orders', { items: cartItems, });
+            setOrderId(data.id);
+            setIsOrderComplete(true);
+            setCartItems([]);
+
+            for (let i = 0; i < cartItems.length; i++) {
+                const item = cartItems[i];
+                await axios.delete(`https://648ad8bd17f1536d65e9d127.mockapi.io/cart/${item.id}`);
+                await delay(1000);
+
+
+            }
+        }
+        catch (error) {
+            alert('Не удалось сформировать заказ');
+        }
+
+        setisLoading(false);
+    }
+
+
+
     return (
         <div className={styles.overlay}>
             <div className={styles.cartOverlay}>
@@ -42,17 +81,13 @@ function CartOverlay({ onClose, onRemove, items = [] }) {
                                     </li>
 
                                 </ul>
-                                <button className={styles.checkoutButton}>Оформить заказ<img src="/img/button_arrow.svg" alt="checkout" /></button>
+                                <button disabled={isLoading} className={styles.checkoutButton} onClick={onClickOrder}>Оформить заказ<img src="/img/button_arrow.svg" alt="checkout" /></button>
                             </div>
                         </div>) :
 
                     (
-                        <div className={styles.cartEmpty}>
-                            <img width={120} height={120} src="/img/empty_box.svg" />
-                            <h3 className={styles.headerEmpty}>Корзина пустая</h3>
-                            <p className={styles.pEmpty}>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-                            <button onClick={onClose} className={styles.returnButton}><img className={styles.returnButtonArrow} src="/img/return_button_arrow.svg" />Вернуться назад</button>
-                        </div>
+                        <Info title={isOrderComplete ? "Заказ оформлен!" : "Корзина пустая"} description={isOrderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."} image={isOrderComplete ? "/img/complete_order_logo.svg" : "/img/empty_box.svg"} />
+
                     )}
             </div>
 
